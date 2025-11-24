@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>autonomi — automate the grunt work</title>
+  <meta name="description" content="Autonomi builds automations, integrations, and AI helpers to eliminate repetitive, complex, and ugly work." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0f1724;         /* Dark base */
+      --surface: #121c2f;
+      --muted-surface: #0f1829;
+      --edge: rgba(255,255,255,.08);
+      --text: #e6edf7;
+      --muted: #a7b3c9;
+      --accent: #69c7ff;     /* Teal/blue */
+      --accent-2: #9f7cff;   /* Violet */
+      --ok: #4df2a4;
+      --card-shadow: 0 10px 30px rgba(0,0,0,.45), 0 2px 10px rgba(21,39,82,.35);
+    }
+    /* ===== Alternate themes (options) ===== */
+    .theme-ink{ --bg:#0b0d12; --surface:#121418; --muted-surface:#0d0f14; --text:#eceff4; --muted:#b7c0cf; --accent:#7be3ff; --accent-2:#6c8cff }
+    .theme-light{ --bg:#f7f9fc; --surface:#ffffff; --muted-surface:#f1f5fb; --edge:rgba(10,30,60,.12); --text:#0c1b31; --muted:#52617a; --accent:#0ea5e9; --accent-2:#7c3aed }
+
+    html,body{height:100%}
+    *{box-sizing:border-box}
+    body{margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; color:var(--text); background:
+      radial-gradient(1100px 420px at 10% -10%, rgba(159,124,255,.22), transparent 60%),
+      radial-gradient(900px 300px at 90% -20%, rgba(106,199,255,.22), transparent 60%),
+      linear-gradient(180deg, var(--bg), #0b1224 60%, var(--bg) 100%);
+      line-height:1.6; scroll-behavior:smooth}
+    a{color:var(--accent)}
+    .container{width:min(1100px, 92%); margin-inline:auto}
+
+    /* ===== Nav ===== */
+    nav{position:sticky; top:0; z-index:40; backdrop-filter:saturate(180%) blur(8px); background:rgba(10,15,28,.55); border-bottom:1px solid var(--edge)}
+    .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; align-items:center; gap:.6rem; font-weight:800; letter-spacing:.2px; text-decoration:none; color:var(--text)}
+    .logo{width:28px; height:28px}
+    .nav-actions{display:flex; gap:.5rem; align-items:center}
+    .chip{display:inline-flex; align-items:center; gap:.4rem; padding:.45rem .7rem; border-radius:10px; border:1px solid var(--edge); background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); font-size:.9rem}
+    .btn{display:inline-flex; align-items:center; gap:.6rem; padding:.7rem 1rem; border-radius:12px; border:1px solid var(--edge); color:var(--text); text-decoration:none; background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03)); box-shadow:var(--card-shadow); font-weight:700}
+
+    /* ===== Hero ===== */
+    header.hero{padding:96px 0 40px}
+    .hero-grid{display:grid; grid-template-columns:1.2fr 1fr; gap:40px}
+    @media (max-width:980px){.hero-grid{grid-template-columns:1fr; gap:24px} header.hero{padding:76px 0 24px}}
+    h1{font-size: clamp(2.2rem, 3.2vw + 1rem, 4rem); line-height:1.1; margin:0}
+    .sub{margin:16px 0 22px; color:var(--muted)}
+
+    .term{background:var(--muted-surface); border:1px solid var(--edge); border-radius:14px; padding:16px; box-shadow:var(--card-shadow)}
+    .traffic{display:flex; gap:8px; margin-bottom:10px}
+    .b{width:10px;height:10px;border-radius:50%}
+    .b1{background:#ff6b6b}.b2{background:#ffd93d}.b3{background:#6ee7b7}
+    .code{font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New"; font-size:.9rem}
+
+    /* ===== Sections ===== */
+    section{padding:72px 0}
+    h2{font-size:clamp(1.6rem, 1vw + 1.2rem, 2.2rem); margin:0 0 12px}
+    .muted{color:var(--muted)}
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+    @media (max-width:980px){.grid-3{grid-template-columns:1fr}}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid var(--edge); border-radius:16px; padding:22px; box-shadow:var(--card-shadow)}
+    .icon{width:28px;height:28px; vertical-align:middle; margin-right:10px}
+
+    /* Gallery placeholder */
+    .shot{border-radius:12px; border:1px solid var(--edge); height:220px; background:conic-gradient(from 180deg at 60% 50%, #1b2b52, #213467, #1b2b52)}
+
+    /* Pricing */
+    .pricing{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+    @media (max-width:980px){.pricing{grid-template-columns:1fr}}
+    .price{padding:26px; border:1px solid var(--edge); border-radius:18px; background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); box-shadow:var(--card-shadow)}
+    .amount{font-size:2.1rem; font-weight:800}
+
+    /* CTA */
+    .cta{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px; padding:28px; border:1px solid var(--edge); border-radius:18px; background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); box-shadow:var(--card-shadow)}
+
+    footer{padding:60px 0; border-top:1px solid var(--edge); color:var(--muted)}
+
+    /* Utilities */
+    .row{display:flex; gap:12px; flex-wrap:wrap}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <!-- ============== NAV ============== -->
+  <nav>
+    <div class="container nav-wrap">
+      <a class="brand" href="#top" aria-label="autonomi home">
+        <!-- Inline minimalist symbol -->
+        <svg class="logo" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="var(--accent)"/>
+              <stop offset="100%" stop-color="var(--accent-2)"/>
+            </linearGradient>
+          </defs>
+          <path stroke="url(#g)" d="M6 20c0-7 4-12 10-12 1 0 2 .2 3 .5M26 12c0 7-4 12-10 12-1 0-2-.2-3-.5"/>
+          <circle cx="26" cy="12" r="2" fill="url(#g)"/>
+          <circle cx="6" cy="20" r="2" fill="url(#g)"/>
+        </svg>
+        autonomi
+      </a>
+      <div class="nav-actions">
+        <span class="chip" title="Theme options">
+          Theme:
+          <button class="btn" data-theme="default" style="padding:.3rem .6rem">Dark</button>
+          <button class="btn" data-theme="ink" style="padding:.3rem .6rem">Ink</button>
+          <button class="btn" data-theme="light" style="padding:.3rem .6rem">Light</button>
+        </span>
+        <a class="btn" href="#contact">Start automating</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============== HERO ============== -->
+  <header id="top" class="hero container">
+    <div class="hero-grid">
+      <div>
+        <h1>Let <span style="background:linear-gradient(90deg,var(--accent),var(--accent-2)); -webkit-background-clip:text; background-clip:text; color:transparent">autonomi</span> do the grunt work</h1>
+        <p class="sub">We eliminate the <strong>repetitive</strong>, tame the <strong>complex</strong>, and hide the <strong>ugly</strong> — with automations, integrations, and AI helpers your team can trust.</p>
+        <div class="row">
+          <a class="btn" href="#services">See services</a>
+          <a class="btn" href="#work">See it in action</a>
+        </div>
+      </div>
+      <aside>
+        <div class="term">
+          <div class="traffic"><span class="b b1"></span><span class="b b2"></span><span class="b b3"></span></div>
+          <div class="code">
+$ watch-folder ./invoices
+› parse → validate → push to Xero
+✔ 92 files processed • 0 errors
+$ sync crm --source=web --destination=hubspot
+✔ contacts deduped • deals created • done
+$ autonomi deploy pipeline.yaml
+✔ All checks passed • shipping today 4:00 PM
+          </div>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <!-- ============== SERVICES ============== -->
+  <section id="services">
+    <div class="container">
+      <h2>Our Services</h2>
+      <p class="muted">Focus on the work that matters. Let us handle the rest.</p>
+      <div class="grid-3">
+        <div class="card">
+          <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Task Automation</h3>
+          <p>Zapier / n8n / Make & custom glue that turns busywork into buttons.</p>
+        </div>
+        <div class="card">
+          <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h18M12 3v18"/></svg>Process Optimization</h3>
+          <p>Map → simplify → ship. Fewer steps, fewer clicks, fewer errors.</p>
+        </div>
+        <div class="card">
+          <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12l4 4L19 6"/></svg>Workflow Management</h3>
+          <p>Dashboards, alerts, retries and logs so operations stay calm as you scale.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== WHY ============== -->
+  <section id="why">
+    <div class="container">
+      <h2>Why Automate?</h2>
+      <div class="grid-3">
+        <div class="card"><h3>Save Time</h3><p class="muted">Teams recover 5–20 hours per person each month.</p></div>
+        <div class="card"><h3>Reduce Errors</h3><p class="muted">Checkpoints and validation keep data clean.</p></div>
+        <div class="card"><h3>Scale Smoothly</h3><p class="muted">As volume grows, your ops stay predictable.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== HOW ============== -->
+  <section id="how">
+    <div class="container">
+      <h2>How It Works</h2>
+      <div class="grid-3">
+        <div class="card"><h3>Analyze</h3><p class="muted">We audit your tools and workflows to find leverage.</p></div>
+        <div class="card"><h3>Automate</h3><p class="muted">We prototype, test with your data, and iterate fast.</p></div>
+        <div class="card"><h3>Deploy</h3><p class="muted">Ship to production with monitoring and docs.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SEE IT IN ACTION ============== -->
+  <section id="work">
+    <div class="container">
+      <h2>See It in Action</h2>
+      <div class="grid-3">
+        <div class="card shot"></div>
+        <div class="card shot"></div>
+        <div class="card shot" style="grid-column: 1 / -1"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== PRICING ============== -->
+  <section id="pricing">
+    <div class="container">
+      <h2>Pricing</h2>
+      <div class="pricing">
+        <div class="price"><h3>Starter</h3><p class="muted">One targeted automation to clear a bottleneck.</p><div class="amount">NZD 1,500</div></div>
+        <div class="price" style="outline:2px solid transparent; background:linear-gradient(180deg, rgba(159,124,255,.12), rgba(255,255,255,.02));"><h3>Growth</h3><p class="muted">A small portfolio + observability and docs.</p><div class="amount">NZD 4,500</div></div>
+        <div class="price"><h3>Partner</h3><p class="muted">On‑going roadmap and ops support.</p><div class="amount">Custom</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== CTA ============== -->
+  <section id="contact">
+    <div class="container">
+      <div class="cta">
+        <div>
+          <h2>Ready to automate the repetitive, complex, and ugly?</h2>
+          <p class="muted">Tell us where it hurts. We'll propose pragmatic automation that pays back quickly.</p>
+        </div>
+        <a class="btn" href="mailto:noreply@autonomi.nz?subject=Let's automate&body=Hi Autonomi,%0D%0A%0D%0AHere's the repetitive/complex/ugly work I'd like help with:">Email noreply@autonomi.nz</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px">
+      <div>© <span id="year"></span> autonomi</div>
+      <div><a href="mailto:noreply@autonomi.nz">noreply@autonomi.nz</a></div>
+    </div>
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Theme toggle buttons (extra options)
+    const root = document.documentElement;
+    document.querySelectorAll('[data-theme]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        root.classList.remove('theme-ink','theme-light');
+        if (btn.dataset.theme === 'ink') root.classList.add('theme-ink');
+        if (btn.dataset.theme === 'light') root.classList.add('theme-light');
+        if (btn.dataset.theme === 'default') {/* already default */}
+      });
+    });
+  </script>
+</body>
+</html>

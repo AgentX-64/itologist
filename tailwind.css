@@ -1,0 +1,77 @@
+/* ====== Minimal Tailwind-like utilities (subset) ====== */
+
+/* Base reset-ish */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; line-height: 1.5; }
+
+/* Typography */
+.antialiased { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.text-center { text-align: center; }
+.text-sm { font-size: .875rem; line-height: 1.25rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.tracking-tight { letter-spacing: -0.01em; }
+
+/* Colors (slate subset) */
+.bg-white { background-color: #ffffff; }
+.bg-slate-50 { background-color: #f8fafc; }
+.text-slate-900 { color: #0f172a; }
+.text-slate-600 { color: #475569; }
+.text-slate-500 { color: #64748b; }
+
+/* Layout & sizing */
+.min-h-screen { min-height: 100vh; }
+.container { width: 100%; }
+@media (min-width: 640px) { .container { max-width: 640px; } }
+@media (min-width: 768px) { .container { max-width: 768px; } }
+@media (min-width: 1024px) { .container { max-width: 1024px; } }
+@media (min-width: 1280px) { .container { max-width: 1280px; } }
+
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.max-w-4xl { max-width: 56rem; } /* 896px */
+.overflow-hidden { overflow: hidden; }
+
+/* Spacing (a few common sizes) */
+.p-6 { padding: 1.5rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+.py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+.mt-2 { margin-top: .5rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+/* Positioning */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+
+/* Display */
+.block { display: block; }
+
+/* Border radius */
+.rounded-2xl { border-radius: 1rem; }
+
+/* Shadows */
+.shadow-md { box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+
+/* Aspect ratio helpers */
+.aspect-video {
+  aspect-ratio: 16 / 9;         /* modern browsers */
+}
+@supports not (aspect-ratio: 1 / 1) {
+  /* Fallback for older browsers using the padding-top hack */
+  .aspect-video {
+    position: relative;
+    height: 0;
+    padding-top: 56.25%;        /* 16:9 */
+  }
+  .aspect-video > * {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
