@@ -1,0 +1,1 @@
+<template><div class='min-h-screen bg-slate-950 text-slate-50 p-10'>About Itologist (see chat for full content)</div></template>
